@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Date With My Gulab Jamun 💕</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:18px;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#fff0f5,#ffe0e9);color:#43212b}
+.card{width:min(560px,100%);background:#fff;border-radius:28px;padding:30px 24px;box-shadow:0 18px 50px rgba(100,30,50,.16);text-align:center}
+.heart{font-size:54px;animation:pulse 1.4s infinite}@keyframes pulse{50%{transform:scale(1.12)}}
+h1{font-size:30px;margin:8px 0 10px}h2{font-size:22px}.sub{color:#76535d}
+.step{display:none}.step.active{display:block}
+.buttons{display:flex;gap:12px;margin-top:22px}.btn{flex:1;padding:14px;border:0;border-radius:15px;font-size:17px;font-weight:800;cursor:pointer}
+.yes{background:#e85d7d;color:white}.no{background:#f4e1e6;color:#633541}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.option{border:2px solid #f1d4dc;border-radius:14px;padding:12px;background:#fff;cursor:pointer;font-weight:600}
+.option.selected{border-color:#e85d7d;background:#fff0f4}
+input[type=date]{width:100%;padding:13px;border:2px solid #f1d4dc;border-radius:14px;font-size:16px;margin-top:12px}
+.next{width:100%;margin-top:22px;padding:15px;border:0;border-radius:16px;background:#e85d7d;color:white;font-size:18px;font-weight:800;cursor:pointer}
+.message{background:#fff0f4;border-radius:18px;padding:20px;line-height:1.6}
+.tiny{font-size:13px;color:#8b6872;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="heart">💌</div>
+
+  <div class="step active" id="s1">
+    <h1>My Gulab Jamun... 🥰</h1>
+    <p class="sub">I have a very important question for you.</p>
+    <h2>Will you go on a date with me? ❤️</h2>
+    <div class="buttons">
+      <button class="btn yes" onclick="go(2)">Yes! 🥰</button>
+      <button class="btn no" onclick="go(3)">No 😌</button>
+    </div>
+  </div>
+
+  <div class="step" id="s2">
+    <h1>Yayyyy! 🥳❤️</h1>
+    <p>But before we celebrate...</p>
+    <h2>Let's plan our perfect date!</h2>
+    <button class="next" onclick="go(5)">Let's do it 💕</button>
+  </div>
+
+  <div class="step" id="s3">
+    <h1>Wait... WHAT?! 😳</h1>
+    <h2>Are you sure you want to decline my invitation?</h2>
+    <div class="buttons">
+      <button class="btn yes" onclick="go(2)">Okay fine, YES ❤️</button>
+      <button class="btn no" onclick="go(4)">I'm sure 😐</button>
+    </div>
+  </div>
+
+  <div class="step" id="s4">
+    <h1>Hmm... 🤨</h1>
+    <h2>Are you REALLY sure?</h2>
+    <p class="sub">Please think carefully... your husband is asking very nicely. 🥺</p>
+    <div class="buttons">
+      <button class="btn yes" onclick="go(2)">YES, let's go! 💕</button>
+      <button class="btn no" onclick="go(6)">Still no 😅</button>
+    </div>
+  </div>
+
+  <div class="step" id="s6">
+    <h1>Final confirmation! 🚨😂</h1>
+    <h2>You're really declining a date with me?</h2>
+    <p class="sub">I will be sitting here dramatically waiting for you to change your mind... 🥺❤️</p>
+    <button class="next" onclick="go(2)">Okay okay, I'll go! 😘</button>
+  </div>
+
+  <div class="step" id="s5">
+    <h1>Step 1 of 2 🍽️</h1>
+    <h2>What do you want to eat?</h2>
+    <div class="options" id="food">
+      <div class="option">🍛 Indian</div><div class="option">🍕 Italian</div>
+      <div class="option">🍜 Chinese</div><div class="option">🌮 Mexican</div>
+      <div class="option">🍔 Anything you choose</div><div class="option">🤷 Surprise me!</div>
+    </div>
+    <button class="next" onclick="foodNext()">Next → 📅</button>
+  </div>
+
+  <div class="step" id="s7">
+    <h1>Step 2 of 2 📅</h1>
+    <h2>When should we have our date?</h2>
+    <input id="date" type="date">
+    <button class="next" onclick="finish()">Confirm our date ❤️</button>
+  </div>
+
+  <div class="step" id="s8">
+    <h1>It's a date! 🎉💕</h1>
+    <div class="message">
+      Thank you my love for accepting my invitation and I’ll be eagerly waiting for our lovely date, I love you so much my Gulab Jamun. ❤️🥰
+      <p id="details"></p>
+    </div>
+</div>
+
+<script>
+let food="";
+function go(n){
+ document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));
+ document.getElementById("s"+n).classList.add("active");
+}
+document.querySelectorAll("#food .option").forEach(o=>o.onclick=()=>{
+ document.querySelectorAll("#food .option").forEach(x=>x.classList.remove("selected"));
+ o.classList.add("selected"); food=o.textContent.trim();
+});
+function foodNext(){
+ if(!food){alert("Please choose what my Gulab Jamun would like to eat. 😘");return}
+ go(7);
+}
+function finish(){
+  const d=document.getElementById("date").value;
+  if(!d){alert("Please choose our date first. ❤️");return}
+
+  const pretty=new Date(d+"T12:00:00").toLocaleDateString(undefined,{
+    weekday:"long",month:"long",day:"numeric",year:"numeric"
+  });
+
+  const responseData = {
+    answer: "Yes",
+    food: food,
+    date: d,
+    submittedAt: new Date().toISOString()
+  };
+
+  document.getElementById("details").innerHTML =
+    `<strong>Our plan:</strong> ${pretty}<br><strong>Food:</strong> ${food} 🍽️`;
+
+  go(8);
+
+  const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbxYIHZghw-eoXe8xtOPMQP117AAE4jj5xhZD9-W3wYRSBKlnp2AZqmRQOj6M1P3FAZz/exec";
+
+  // Native POST to Google Apps Script avoids browser fetch/CORS issues.
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = SUBMIT_URL;
+  form.target = "googleSheetsSubmitFrame";
+  form.style.display = "none";
+
+  Object.entries(responseData).forEach(([key,value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  const frame = document.createElement("iframe");
+  frame.name = "googleSheetsSubmitFrame";
+  frame.style.display = "none";
+
+  document.body.appendChild(frame);
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    form.remove();
+    frame.remove();
+  }, 5000);
+}
+</script>
+</body>
+</html>
